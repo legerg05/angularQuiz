@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html style="text-align: center">
+<head>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+</head>
+<body ng-app="myApp" ng-controller="fmhstCtrl">
+
+<h2>My Family History</h2>
+
+<form ng-submit="familyAdd()">
+    <input type="text" ng-model="person" size="15" placeholder="Person">
+    <input type="text" ng-model="father" size="15" placeholder="Father">
+    <input type="text" ng-model="mother" size="15" placeholder="Mother">
+    <input type="submit" value="Add New">
+</form>
+
+<br>
+
+<div ng-repeat="x in familyList">
+    <input type="checkbox" ng-model="x.done"> <span ng-bind="x.familyText"></span>
+</div>
+
+<p><button ng-click="remove()">Remove marked</button></p>
+
+<script type="javascript/text">
+var app = angular.module('myApp', []);
+app.controller('fmhstCtrl', function($scope) {
+    $scope.familyList = [{familyText:'Clean House', done:false}];
+
+    $scope.familyAdd = function() {
+        var fam = $scope.person + ", " + $scope.father + ", " + $scope.mother;
+        $scope.familyList.push({familyText:fam, done:false})
+        $scope.person = "";
+        $scope.father = "";
+        $scope.mother = "";
+    };
+
+    $scope.remove = function() {
+        var oldList = $scope.familyList;
+        $scope.familyList = [];
+        angular.forEach(oldList, function(x) {
+            if (!x.done) $scope.familyList.push(x);
+        });
+    };
+});
+</script>
+<script type="css/text">
+</script>
+</body>
+</html>
